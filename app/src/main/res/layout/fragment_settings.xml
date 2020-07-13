@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGray">
+
+    <Button
+            android:text="@string/add_track"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/settings_add_track"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:backgroundTint="@color/textColorWhite"
+            android:textColor="@color/mainTextColor"
+            android:layout_marginTop="20dp"/>
+
+    <Button
+            android:text="@string/change_information"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/settings_change_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settings_add_track"
+            android:backgroundTint="@color/textColorWhite"
+            android:textColor="@color/mainTextColor"
+            android:layout_marginTop="1dp"/>
+
+    <Button
+            android:text="@string/account"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_settings_account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settings_change_info"
+            android:backgroundTint="@color/textColorWhite"
+            android:textColor="@color/mainTextColor"
+            android:layout_marginTop="20dp"/>
+
+    <Button
+            android:text="@string/notifications"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_settings_notifications"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_settings_account"
+            android:backgroundTint="@color/textColorWhite"
+            android:textColor="@color/mainTextColor"
+            android:layout_marginTop="1dp"/>
+
+    <Button
+            android:text="@string/log_out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/settings_logout_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_settings_notifications"
+            android:backgroundTint="@color/textColorWhite"
+            android:textColor="@color/colorRed"
+            android:layout_marginTop="20dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
