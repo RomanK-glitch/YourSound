@@ -1536,7 +1536,9 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
-id add_btn
+id add_track_add
+id add_track_chose_file_btn
+id add_track_chose_image_btn
 id add_track_image
 id add_track_name
 id alertTitle
@@ -1571,7 +1573,6 @@ id checkbox
 id checked
 id chip
 id chip_group
-id chose_file_btn
 id chronometer
 id clear_text
 id clip_horizontal
@@ -1806,16 +1807,15 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textView3
-id textViewColon
 id textViewCurrentTrackAuthor
 id textViewCurrentTrackName
+id textViewDuration
 id textViewDurationMinutes
 id textViewHeart
 id textViewTrackAuthor
 id textViewTrackLikes
 id textViewTrackName
 id textViewTrackPlayed
-id textViewdurationSeconds
 id text_input_end_icon
 id text_input_start_icon
 id text_view_comment
@@ -1841,6 +1841,7 @@ id unlabeled
 id up
 id useLogo
 id user_about
+id user_add_track
 id user_edit_profile
 id user_follow
 id user_followed
@@ -1851,8 +1852,8 @@ id user_image_list
 id user_list
 id user_list_user_name
 id user_more_information
-id user_more_tracks
 id user_name
+id user_text_view_no_sounds
 id user_text_view_sounds
 id user_track_list
 id view_offset_helper
@@ -2060,6 +2061,7 @@ string character_counter_content_description
 string character_counter_overflowed_content_description
 string character_counter_pattern
 string chip_text
+string chose_file
 string chose_image
 string clear_text_end_icon_content_description
 string colon
@@ -2121,6 +2123,7 @@ string mtrl_picker_toggle_to_year_selection
 string name
 string nav_app_bar_navigate_up_description
 string nav_app_bar_open_drawer_description
+string no_sounds
 string notifications
 string password_toggle_content_description
 string path_password_eye

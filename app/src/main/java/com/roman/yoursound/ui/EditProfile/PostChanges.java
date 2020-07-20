@@ -1,8 +1,6 @@
 package com.roman.yoursound.ui.EditProfile;
 
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -14,24 +12,19 @@ public class PostChanges extends AsyncTask<String, Void, String> {
     String result = "";
     int userId;
     EditProfileActivity editProfileActivity;
-    Uri newImageUri;
 
-    public PostChanges(int userId, String userName, String about, Uri newImageUri, EditProfileActivity editProfileActivity) {
+    public PostChanges(int userId, String userName, String about, String imagePath, EditProfileActivity editProfileActivity) {
         this.userId = userId;
         this.userName = userName;
         this.about = about;
-        this.newImageUri = newImageUri;
+        this.imagePath = imagePath;
         this.editProfileActivity = editProfileActivity;
     }
 
     @Override
     protected String doInBackground(String... strings) {
         try {
-            if (newImageUri != null) {
-                //send image to server
-                //change imagePath
-                String newImagePath;
-            }
+
             URL url = new URL("http://mrkoste6.beget.tech/edit_profile.php");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");

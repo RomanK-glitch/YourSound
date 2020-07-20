@@ -42,9 +42,11 @@
     <string name="about">About</string>
     <string name="follow">Follow</string>
     <string name="chose_image">Chose image</string>
+    <string name="chose_file">Chose file</string>
     <string name="save_changes">Save changes</string>
     <string name="name">Name</string>
     <string name="add">Add</string>
     <string name="followed">Followed</string>
     <string name="edit_profile">Edit</string>
+    <string name="no_sounds">There is no sounds yet</string>
 </resources>

@@ -1,33 +1,33 @@
 package com.roman.yoursound.ui.EditProfile;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import com.roman.yoursound.MainActivity;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class PostUserImage extends AsyncTask<String, Void, String> {
-    Uri newImageUri;
+
+    String result = "";
     int serverResponseCode = 0;
     EditProfileActivity editProfileActivity;
+    String imagePath;
 
-    public PostUserImage (Uri newImageUri, EditProfileActivity editProfileActivity) {
-        this.newImageUri = newImageUri;
+    public PostUserImage (String imagePath, EditProfileActivity editProfileActivity) {
+        this.imagePath = imagePath;
         this.editProfileActivity = editProfileActivity;
     }
 
     @Override
     protected String doInBackground(String... strings) {
 
-        //Toast.makeText(editProfileActivity, "something", Toast.LENGTH_SHORT);
-
         try {
-            String sourceFileUri = newImageUri.toString();
 
+            String sourceFileUri = imagePath;
             HttpURLConnection conn = null;
             DataOutputStream dos = null;
             String lineEnd = "\r\n";
@@ -41,12 +41,14 @@ public class PostUserImage extends AsyncTask<String, Void, String> {
             if (sourceFile.isFile()) {
 
                 try {
-                    String upLoadServerUri = "http://mrkoste6.beget.tech/upload_image.php";
+
+                    //Compress image file
+                    Bitmap b = BitmapFactory.decodeFile(sourceFile.getPath());
+                    b.compress(Bitmap.CompressFormat.JPEG, 25, new FileOutputStream(sourceFile));
+                    FileInputStream fileInputStream = new FileInputStream(sourceFile);
 
                     // open a URL connection to the Servlet
-                    FileInputStream fileInputStream = new FileInputStream(
-                            sourceFile);
-                    URL url = new URL(upLoadServerUri);
+                    URL url = new URL("http://mrkoste6.beget.tech/upload_image.php");
 
                     // Open a HTTP connection to the URL
                     conn = (HttpURLConnection) url.openConnection();
@@ -55,17 +57,18 @@ public class PostUserImage extends AsyncTask<String, Void, String> {
                     conn.setUseCaches(false); // Don't use a Cached Copy
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Connection", "Keep-Alive");
-                    conn.setRequestProperty("ENCTYPE",
-                            "multipart/form-data");
-                    conn.setRequestProperty("Content-Type",
-                            "multipart/form-data;boundary=" + boundary);
+                    conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                    conn.setRequestProperty("Accept", "application/json");
                     conn.setRequestProperty("bill", sourceFileUri);
 
                     dos = new DataOutputStream(conn.getOutputStream());
 
+                    //change file name to users id
+                    String newFileName = String.valueOf(MainActivity.userLocalStore.getLoggedInUser().id) + sourceFileUri.substring(sourceFileUri.indexOf("."));
+
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"bill\";filename=\""
-                            + sourceFileUri + "\"" + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"bill\";filename=\"" + newFileName + "\"" + lineEnd);
 
                     dos.writeBytes(lineEnd);
 
@@ -82,66 +85,55 @@ public class PostUserImage extends AsyncTask<String, Void, String> {
 
                         dos.write(buffer, 0, bufferSize);
                         bytesAvailable = fileInputStream.available();
-                        bufferSize = Math
-                                .min(bytesAvailable, maxBufferSize);
-                        bytesRead = fileInputStream.read(buffer, 0,
-                                bufferSize);
+                        bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 
                     }
 
                     // send multipart form data necesssary after file
                     // data...
                     dos.writeBytes(lineEnd);
-                    dos.writeBytes(twoHyphens + boundary + twoHyphens
-                            + lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
                     // Responses from the server (code and message)
                     serverResponseCode = conn.getResponseCode();
-                    String serverResponseMessage = conn
-                            .getResponseMessage();
-
-                    if (serverResponseCode == 200) {
-
-                        // messageText.setText(msg);
-                        //Toast.makeText(ctx, "File Upload Complete.",
-                        //      Toast.LENGTH_SHORT).show();
-
-                        // recursiveDelete(mDirectory1);
-
-                    }
+                    String serverResponseMessage = conn.getResponseMessage();
 
                     // close the streams //
                     fileInputStream.close();
                     dos.flush();
                     dos.close();
 
+                    InputStream inputStream = conn.getInputStream();
+                    BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+                    String line = "";
+                    while (line != null){
+                        line = input.readLine();
+                        if (line != null){
+                            result = result + line;
+                        }
+                    }
+
                 } catch (Exception e) {
-
-                    // dialog.dismiss();
                     e.printStackTrace();
-                    Toast.makeText(editProfileActivity, "Exception1", Toast.LENGTH_SHORT);
+                    result = e.getMessage();
                 }
-                // dialog.dismiss();
             } else {
-                Toast.makeText(editProfileActivity, "InvalidFile", Toast.LENGTH_SHORT);
                 // End else block
+                result = sourceFileUri;
             }
-
-
         } catch (Exception ex) {
-            // dialog.dismiss();
-            //Toast.makeText(editProfileActivity, "Exception2", Toast.LENGTH_SHORT);
+            result = ex.getMessage();
             ex.printStackTrace();
         }
-
-
-
         return null;
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Toast.makeText(editProfileActivity, "imageUploaded", Toast.LENGTH_SHORT);
+        if (!result.contains("Success")){
+            Toast.makeText(editProfileActivity, result, Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import com.roman.yoursound.*;
+import com.roman.yoursound.ui.AddTrack.AddTrackActivity;
 import com.roman.yoursound.ui.EditProfile.EditProfileActivity;
 
 public class SettingsFragment extends Fragment {
@@ -44,7 +45,7 @@ public class SettingsFragment extends Fragment {
         to_addTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toAddTrack = new Intent(getActivity(), ActivityAddTrack.class);
+                Intent toAddTrack = new Intent(getActivity(), AddTrackActivity.class);
                 startActivity(toAddTrack);
             }
         });

@@ -1,7 +1,10 @@
 package com.roman.yoursound.ui.EditProfile;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.roman.yoursound.MainActivity;
 import com.roman.yoursound.R;
-import com.roman.yoursound.models.User;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-public class EditProfileActivity extends AppCompatActivity {
+import java.io.File;
 
-    private static final int GALLERY_REQUEST_CODE = 123;
+public class EditProfileActivity extends AppCompatActivity {
 
     //Views
     Button choseImageBtn;
@@ -29,16 +33,10 @@ public class EditProfileActivity extends AppCompatActivity {
     ImageView userImageIV;
 
     String newName, newAbout;
+    String filePath = "";
+    String newImagePath = "";
     Uri newImageUri;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null){
-            newImageUri = data.getData();
-            userImageIV.setImageURI(newImageUri);
-        }
-    }
+    private static final int GALLERY_REQUEST_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,8 @@ public class EditProfileActivity extends AppCompatActivity {
         //set user data to views
         nameTV.setText(MainActivity.userLocalStore.getLoggedInUser().userName);
         aboutTV.setText(MainActivity.userLocalStore.getLoggedInUser().about);
-        Picasso.get().load(MainActivity.userLocalStore.getLoggedInUser().imagePath).placeholder(R.drawable.purple_user).error(R.drawable.purple_user).into(userImageIV);
+        Picasso.get().load(MainActivity.userLocalStore.getLoggedInUser().imagePath).fit().centerCrop().memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.drawable.purple_user).error(R.drawable.purple_user).into(userImageIV);
 
         //chose image
         choseImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,16 +78,20 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 newName = nameTV.getText().toString();
                 newAbout = aboutTV.getText().toString();
-                //if newImageUri not null, create new PostImage() execute
-                PostChanges postChanges = new PostChanges(MainActivity.userLocalStore.getLoggedInUser().id, newName, newAbout, newImageUri, etActivity);
+                if (!filePath.isEmpty()) {
+                    PostUserImage postUserImage = new PostUserImage(filePath, etActivity);
+                    postUserImage.execute();
+                    newImagePath = "http://mrkoste6.beget.tech/user_image/" + String.valueOf(MainActivity.userLocalStore.getLoggedInUser().id) + filePath.substring(filePath.indexOf("."));
+                    MainActivity.userLocalStore.changeUserImage(newImagePath);
+                }
+                PostChanges postChanges = new PostChanges(MainActivity.userLocalStore.getLoggedInUser().id, newName, newAbout, newImagePath, etActivity);
                 postChanges.execute();
-                //PostUserImage postUserImage = new PostUserImage(newImageUri, etActivity);
-                //postUserImage.execute();
                 MainActivity.userLocalStore.changeUserData(newName, newAbout);
             }
         });
     }
 
+    //back button
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -99,11 +102,39 @@ public class EditProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //on image select
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null){
+            newImageUri = data.getData();
+            filePath = getRealPathFromURI(this, newImageUri);
+            userImageIV.setImageURI(newImageUri);
+        }
+    }
+
+    //on server response
     public void onSave(String result){
         if (result.equals("Success")){
             this.finish();
         } else {
             Toast.makeText(this, "Sorry, something went wrong", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //get file path from uri
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
     }
 }

@@ -59,7 +59,6 @@ class PostRegister extends AsyncTask<String, Void, String> {
         } else if (result.contains("Duplicate entry")){
             Toast.makeText(registerFragment.getActivity(), "This name already taken",Toast.LENGTH_SHORT).show();
         } else {
-            //Toast.makeText(registerFragment.getActivity(), result,Toast.LENGTH_SHORT).show();
             Toast.makeText(registerFragment.getActivity(), "Sorry, something went wrong",Toast.LENGTH_SHORT).show();
         }
     }

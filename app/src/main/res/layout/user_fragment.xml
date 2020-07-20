@@ -179,12 +179,28 @@ You’ve gotta stand out from them. That’s why your music bio is important."
         >
         </TextView>
 
+        <TextView
+                app:layout_constraintTop_toBottomOf="@+id/user_track_list"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:id="@+id/user_text_view_no_sounds"
+                android:text="@string/no_sounds"
+                android:textSize="20sp"
+                android:textColor="@color/darkGray"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+        >
+        </TextView>
+
         <ListView
         app:layout_constraintTop_toBottomOf="@+id/user_text_view_sounds"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
-        android:layout_height="255dp"
+        android:layout_height="0dp"
         android:id="@+id/user_track_list"
         android:layout_marginTop="5dp"
         >
@@ -193,20 +209,21 @@ You’ve gotta stand out from them. That’s why your music bio is important."
         <Button
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_track_list"
+                app:layout_constraintTop_toBottomOf="@+id/user_text_view_no_sounds"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/more"
-                android:background="?android:attr/selectableItemBackground"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginEnd="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginStart="24dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/add_track"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/textColorWhite"
+                android:layout_marginEnd="80dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:layout_marginStart="80dp"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/user_more_tracks"
+                android:id="@+id/user_add_track"
+                android:visibility="gone"
         >
         </Button>
 

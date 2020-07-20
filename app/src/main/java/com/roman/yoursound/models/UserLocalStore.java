@@ -11,6 +11,12 @@ public class UserLocalStore {
         userLocalDataBase = context.getSharedPreferences(sp_name, 0);
     }
 
+    public void changeUserImage(String newImagePath){
+        SharedPreferences.Editor spEditor = userLocalDataBase.edit();
+        spEditor.putString("image_path", newImagePath);
+        spEditor.apply();
+    }
+
     public void changeUserData(String name, String about){
         SharedPreferences.Editor spEditor = userLocalDataBase.edit();
         spEditor.putString("name", name);

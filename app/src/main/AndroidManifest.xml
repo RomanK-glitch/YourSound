@@ -3,6 +3,7 @@
           package="com.roman.yoursound">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
             android:name=".AppController"
@@ -11,7 +12,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ActivityAddTrack"
+        <activity android:name=".ui.AddTrack.AddTrackActivity"
         android:label="Add Track"
         android:screenOrientation="portrait">
         </activity>

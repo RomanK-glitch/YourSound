@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.roman.yoursound.AppController;
 import com.roman.yoursound.R;
@@ -54,16 +53,14 @@ public class TrackAdapter extends BaseAdapter {
         }
         TextView textViewTrackName = (TextView)itemView.findViewById(R.id.textViewTrackName);
         TextView textViewTrackAuthor = (TextView)itemView.findViewById(R.id.textViewTrackAuthor);
-        TextView textViewDurationMinutes = (TextView)itemView.findViewById(R.id.textViewDurationMinutes);
-        TextView textViewDurationSeconds = (TextView)itemView.findViewById(R.id.textViewdurationSeconds);
+        TextView textViewDuration = (TextView)itemView.findViewById(R.id.textViewDuration);
         TextView textViewTracksPlayed = (TextView)itemView.findViewById(R.id.textViewTrackPlayed);
         TextView textViewTracksLikes = (TextView)itemView.findViewById(R.id.textViewTrackLikes);
         NetworkImageView trackImage = (NetworkImageView)itemView.findViewById(R.id.trackImage);
         Track selectedTrack = tracks.get(position);
         textViewTrackName.setText(selectedTrack.name);
         textViewTrackAuthor.setText(selectedTrack.author);
-        textViewDurationMinutes.setText(Integer.toString(selectedTrack.durationMinutes));
-        textViewDurationSeconds.setText(Integer.toString(selectedTrack.durationSeconds));
+        textViewDuration.setText(selectedTrack.duration);
         textViewTracksLikes.setText(Integer.toString(selectedTrack.listening));
         textViewTracksPlayed.setText(Integer.toString(selectedTrack.listening));
         if (selectedTrack.image_path != ""){

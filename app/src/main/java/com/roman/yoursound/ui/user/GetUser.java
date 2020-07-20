@@ -8,6 +8,8 @@ import android.widget.Toast;
 import com.roman.yoursound.MainActivity;
 import com.roman.yoursound.R;
 import com.roman.yoursound.models.User;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.json.JSONException;
@@ -63,37 +65,6 @@ public class GetUser extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-
-        TextView userNameTV = userFragment.getActivity().findViewById(R.id.user_name);
-        TextView aboutTV = userFragment.getActivity().findViewById(R.id.user_about);
-        CircleImageView userImageCIV = userFragment.getActivity().findViewById(R.id.user_image);
-        Button followButton = userFragment.getActivity().findViewById(R.id.user_follow);
-        Button followedButton = userFragment.getActivity().findViewById(R.id.user_followed);
-        Button editProfileButton = userFragment.getActivity().findViewById(R.id.user_edit_profile);
-
-        try {
-            JSONObject jo = new JSONObject(result);
-            User currentUser = new User(Integer.parseInt(jo.getString("id")), jo.getString("name"), jo.getString("password"), jo.getString("email"), jo.getString("about"), jo.getString("image_path"));
-
-            boolean isFollowed = Boolean.parseBoolean(jo.getString("is_followed"));
-
-            if (userId == MainActivity.userLocalStore.getLoggedInUser().id){
-                editProfileButton.setVisibility(View.VISIBLE);
-            } else {
-                if (isFollowed){
-                    followedButton.setVisibility(View.VISIBLE);
-                } else {
-                    followButton.setVisibility(View.VISIBLE);
-                }
-            }
-
-            userNameTV.setText(currentUser.userName);
-            aboutTV.setText(currentUser.about);
-            Picasso.get().load(currentUser.imagePath).placeholder(R.drawable.purple_user).error(R.drawable.purple_user).into(userImageCIV);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        userFragment.showUserData(result);
     }
 }
