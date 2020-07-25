@@ -272,6 +272,10 @@
         "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
     },
     {
+        "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\drawable_search_button_bg.xml.flat",
+        "source": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\src\\main\\res\\drawable\\search_button_bg.xml"
+    },
+    {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_dialog_title_material.xml.flat",
         "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\layout\\abc_dialog_title_material.xml"
     },
@@ -790,6 +794,10 @@
     {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_notification_bg_normal.9.png.flat",
         "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\c527b78844be871c44103f6f45a963fb\\core-1.1.0\\res\\drawable-xhdpi-v4\\notification_bg_normal.9.png"
+    },
+    {
+        "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\layout_search_sound_page.xml.flat",
+        "source": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\src\\main\\res\\layout\\search_sound_page.xml"
     },
     {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\drawable_design_password_eye.xml.flat",
@@ -1702,6 +1710,10 @@
     {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
         "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_btn_radio_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\drawable_search_white.png.flat",
+        "source": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\src\\main\\res\\drawable\\search_white.png"
     },
     {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_edit_text_material.xml.flat",

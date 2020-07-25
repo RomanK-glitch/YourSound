@@ -3,7 +3,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <com.android.volley.toolbox.NetworkImageView
+    <ImageView
             android:layout_width="55dp"
             android:layout_height="55dp" app:srcCompat="@drawable/song_image" android:id="@+id/trackImage"
             android:contentDescription="@string/track_image"
@@ -17,9 +17,9 @@
             android:layout_height="wrap_content" android:id="@+id/textViewTrackAuthor"
             android:layout_toEndOf="@+id/trackImage" android:layout_toRightOf="@+id/trackImage"
             android:layout_marginLeft="20dp" android:layout_marginStart="20dp"
-            android:layout_alignTop="@+id/trackImage" android:layout_toStartOf="@+id/textViewDurationMinutes"
+            android:layout_alignTop="@+id/trackImage" android:layout_toStartOf="@+id/textViewDuration"
             android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
-            android:layout_toLeftOf="@+id/textViewDurationMinutes"/>
+            android:layout_toLeftOf="@+id/textViewDuration"/>
     <TextView
             android:text="@string/track_name"
             android:layout_width="wrap_content"

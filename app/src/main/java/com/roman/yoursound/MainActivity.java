@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -20,8 +21,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.roman.yoursound.models.Track;
 import com.roman.yoursound.models.UserLocalStore;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.ImageLoader;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,9 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Button bottomBtnPlay, playBtn;
     SeekBar positionBar;
     TextView elapsedTimeLabel, remainingTimeLabel, currentTrackNameBottom, currentTrackAuthorBottom, currentTrackNamePlayer, currentTrackAuthorPlayer;
-    NetworkImageView player_trackImage;
-
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    ImageView player_trackImage;
     public static UserLocalStore userLocalStore;
     MediaPlayer mp;
     int totalTime;
@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         currentTrackNamePlayer = findViewById(R.id.player_track_name);
         currentTrackAuthorPlayer = findViewById(R.id.player_track_author);
         player_trackImage = findViewById(R.id.player_imageView);
-        player_trackImage.setImageUrl("http://mrkoste6.beget.tech/track_image/song.png", imageLoader);
+        Picasso.get().load("http://mrkoste6.beget.tech/track_image/song.png").fit().centerCrop().memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.drawable.song_image).error(R.drawable.song_image).into(player_trackImage);
 
         mp = new MediaPlayer();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -98,11 +99,8 @@ public class MainActivity extends AppCompatActivity {
         currentTrackNameBottom.setText(currentTrack.name);
         currentTrackNamePlayer.setText(currentTrack.name);
         currentTrackAuthorPlayer.setText(currentTrack.author);
-        if (currentTrack.image_path != ""){
-        player_trackImage.setImageUrl(currentTrack.image_path, imageLoader);
-        } else {
-            player_trackImage.setImageUrl("http://mrkoste6.beget.tech/track_image/song.png", imageLoader);
-        }
+        Picasso.get().load(currentTrack.image_path).fit().centerCrop().memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.drawable.song_image).error(R.drawable.song_image).into(player_trackImage);
 
         mp.stop();
         mp.reset();

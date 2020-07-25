@@ -62,6 +62,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 String userName = userNameET.getText().toString();
                 String password = passwordET.getText().toString();
+                password = User.hashPassword(password);
 
                 if (userName.isEmpty()) {
                     Toast.makeText(getActivity(), "User name field is not filled",Toast.LENGTH_SHORT).show();

@@ -11,6 +11,10 @@ import androidx.annotation.Nullable;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import com.roman.yoursound.R;
+import com.roman.yoursound.models.User;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class RegisterFragment extends Fragment {
 
@@ -43,6 +47,7 @@ public class RegisterFragment extends Fragment {
                         password = passwordET.getText().toString();
                         repPassword = repPasswordET.getText().toString();
 
+
                         if (userName.isEmpty()){
                             Toast.makeText(getActivity(), "User name field is not filled",Toast.LENGTH_SHORT).show();
                         } else if ( eMail.isEmpty()) {
@@ -54,6 +59,8 @@ public class RegisterFragment extends Fragment {
                         } else if (!password.equals(repPassword)){
                             Toast.makeText(getActivity(), "Password and confirm password are not the same",Toast.LENGTH_SHORT).show();
                         } else {
+                            //hash password
+                            password = User.hashPassword(password);
                             registerRequest(userName, password, eMail);
                         }
                     }

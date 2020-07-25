@@ -5,12 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-import com.android.volley.toolbox.ImageLoader;
-import com.roman.yoursound.AppController;
-import com.roman.yoursound.CircleNetworkImageView;
 import com.roman.yoursound.R;
 import com.roman.yoursound.models.User;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,6 @@ public class UserAdapter extends BaseAdapter {
     Context context;
     ArrayList<User> users;
     private static LayoutInflater inflater = null;
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public UserAdapter(Context context, ArrayList<User> users){
         this.context = context;
@@ -54,10 +54,11 @@ public class UserAdapter extends BaseAdapter {
         }
 
         TextView userNameView = (TextView)itemView.findViewById(R.id.user_list_user_name);
-        CircleNetworkImageView userImage = itemView.findViewById(R.id.user_image_list);
+        ImageView userImage = itemView.findViewById(R.id.user_image_list);
         User selectedUser = users.get(position);
         userNameView.setText(selectedUser.userName);
-        userImage.setImageUrl(selectedUser.imagePath, imageLoader);
+        Picasso.get().load(selectedUser.imagePath).fit().centerCrop().memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.drawable.purple_user).error(R.drawable.purple_user).into(userImage);
         return itemView;
     }
 }

@@ -43,8 +43,11 @@ public class PostUserImage extends AsyncTask<String, Void, String> {
                 try {
 
                     //Compress image file
-                    Bitmap b = BitmapFactory.decodeFile(sourceFile.getPath());
-                    b.compress(Bitmap.CompressFormat.JPEG, 25, new FileOutputStream(sourceFile));
+                    if (sourceFile.length() > 500000) {
+                        Bitmap b = BitmapFactory.decodeFile(sourceFile.getPath());
+                        b.compress(Bitmap.CompressFormat.JPEG, 35, new FileOutputStream(sourceFile));
+                    }
+
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
 
                     // open a URL connection to the Servlet

@@ -49,4 +49,6 @@
     <string name="followed">Followed</string>
     <string name="edit_profile">Edit</string>
     <string name="no_sounds">There is no sounds yet</string>
+    <string name="no_results">No results found</string>
+    <string name="find">Find tracks and artists</string>
 </resources>

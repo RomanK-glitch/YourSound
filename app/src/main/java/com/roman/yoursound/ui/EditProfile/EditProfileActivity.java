@@ -86,7 +86,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
                 PostChanges postChanges = new PostChanges(MainActivity.userLocalStore.getLoggedInUser().id, newName, newAbout, newImagePath, etActivity);
                 postChanges.execute();
-                MainActivity.userLocalStore.changeUserData(newName, newAbout);
+
             }
         });
     }
@@ -116,7 +116,10 @@ public class EditProfileActivity extends AppCompatActivity {
     //on server response
     public void onSave(String result){
         if (result.equals("Success")){
+            MainActivity.userLocalStore.changeUserData(newName, newAbout);
             this.finish();
+        } else if (result.contains("Duplicate entry")) {
+            Toast.makeText(this, "This name alreay taken", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Sorry, something went wrong", Toast.LENGTH_SHORT).show();
         }

@@ -1,4 +1,4 @@
-#Mon Jul 20 19:40:26 MSK 2020
+#Sat Jul 25 20:44:47 MSK 2020
 base.0=C\:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

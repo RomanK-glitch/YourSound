@@ -179,7 +179,6 @@ public class UserFragment extends Fragment {
         if (userId != null){
             currentUserId = userId.getInt("userId", -1);
         }
-
     }
 
     @Override
@@ -215,6 +214,8 @@ public class UserFragment extends Fragment {
             }
             setListViewHeightBasedOnChildren(listViewTracks);
         } else {
+            noSoundsTV.setVisibility(View.GONE);
+            addTrackBtn.setVisibility(View.GONE);
             try {
                 JSONArray ja = new JSONArray(tracksJson);
                 for (int i = 0; i < ja.length(); i++){

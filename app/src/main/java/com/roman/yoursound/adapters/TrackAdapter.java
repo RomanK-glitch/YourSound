@@ -5,19 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-import com.roman.yoursound.AppController;
 import com.roman.yoursound.R;
 import com.roman.yoursound.models.Track;
 import java.util.ArrayList;
-import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 public class TrackAdapter extends BaseAdapter {
     Context context;
     ArrayList<Track> tracks;
     private static LayoutInflater inflater = null;
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public TrackAdapter(Context context, ArrayList<Track> tracks){
         this.context = context;
@@ -56,18 +54,14 @@ public class TrackAdapter extends BaseAdapter {
         TextView textViewDuration = (TextView)itemView.findViewById(R.id.textViewDuration);
         TextView textViewTracksPlayed = (TextView)itemView.findViewById(R.id.textViewTrackPlayed);
         TextView textViewTracksLikes = (TextView)itemView.findViewById(R.id.textViewTrackLikes);
-        NetworkImageView trackImage = (NetworkImageView)itemView.findViewById(R.id.trackImage);
+        ImageView trackImage = itemView.findViewById(R.id.trackImage);
         Track selectedTrack = tracks.get(position);
         textViewTrackName.setText(selectedTrack.name);
         textViewTrackAuthor.setText(selectedTrack.author);
         textViewDuration.setText(selectedTrack.duration);
         textViewTracksLikes.setText(Integer.toString(selectedTrack.listening));
         textViewTracksPlayed.setText(Integer.toString(selectedTrack.listening));
-        if (selectedTrack.image_path != ""){
-        trackImage.setImageUrl(selectedTrack.image_path, imageLoader);
-        } else {
-            trackImage.setImageUrl("http://mrkoste6.beget.tech/track_image/song.png", imageLoader);
-        }
+        Picasso.get().load(selectedTrack.image_path).fit().centerCrop().placeholder(R.drawable.song_image).error(R.drawable.song_image).into(trackImage);
         return itemView;
     }
 }
