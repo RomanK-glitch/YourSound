@@ -20,6 +20,8 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.roman.yoursound.ImageActivity" >
+        </activity>
         <activity
             android:name="com.roman.yoursound.ui.AddTrack.AddTrackActivity"
             android:label="Add Track"

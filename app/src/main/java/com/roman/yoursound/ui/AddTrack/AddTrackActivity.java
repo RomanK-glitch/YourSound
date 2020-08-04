@@ -1,5 +1,6 @@
 package com.roman.yoursound.ui.AddTrack;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,6 +28,7 @@ public class AddTrackActivity extends AppCompatActivity {
     Button choseImageBtn, choseFileBtn, addTrackBtn;
     ImageView trackImageIV;
     EditText trackNameET;
+    ProgressDialog dialog;
 
     String trackFilePath = "", trackName = "", imageFilePath = "", imageType = "", trackType = "", newFileName = "";
     Uri trackImageUri;
@@ -95,6 +97,15 @@ public class AddTrackActivity extends AppCompatActivity {
                     }
                     trackType = trackFilePath.substring(trackFilePath.lastIndexOf("."));
 
+                    //loading dialog
+                    dialog = new ProgressDialog(addTrackActivity);
+                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    dialog.setTitle("Uploading");
+                    dialog.setMessage("Uploading track. Please wait...");
+                    dialog.setIndeterminate(true);
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.show();
+
                     PostTrack postTrack = new PostTrack(addTrackActivity, trackName, durationStr, trackType, imageType);
                     postTrack.execute();
                 }
@@ -121,7 +132,10 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     //on track file upload
-    public void onTrackFileUpload() { this.finish(); }
+    public void onTrackFileUpload() {
+        dialog.dismiss();
+        this.finish();
+    }
 
     //back button
     @Override

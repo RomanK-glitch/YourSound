@@ -3,13 +3,16 @@ package com.roman.yoursound.ui.user;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import com.roman.yoursound.ImageActivity;
 import com.roman.yoursound.ui.AddTrack.AddTrackActivity;
 import com.roman.yoursound.models.User;
 import com.roman.yoursound.ui.EditProfile.EditProfileActivity;
@@ -34,6 +37,8 @@ public class UserFragment extends Fragment {
     public TrackAdapter adapter;
     public ListView listViewTracks;
     int currentUserId = MainActivity.userLocalStore.getLoggedInUser().id;
+    User currentUser;
+    CharSequence oldTitle;
 
     //Views
     TextView userNameTV, noSoundsTV;
@@ -86,6 +91,7 @@ public class UserFragment extends Fragment {
                 Bundle params = new Bundle();
                 params.putInt("userId", currentUserId);
                 params.putString("followType", "followers");
+                params.putString("userName", currentUser.userName);
                 followersFragment.setArguments(params);
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
@@ -104,6 +110,7 @@ public class UserFragment extends Fragment {
                 Bundle params = new Bundle();
                 params.putInt("userId", currentUserId);
                 params.putString("followType", "followings");
+                params.putString("userName", currentUser.userName);
                 followersFragment.setArguments(params);
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
@@ -144,7 +151,12 @@ public class UserFragment extends Fragment {
         userImage.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                
+                Intent toImageActivity = new Intent(getActivity(), ImageActivity.class);
+                Bundle imageActivityParameters = new Bundle();
+                imageActivityParameters.putString("userName", currentUser.userName);
+                imageActivityParameters.putString("imagePath", currentUser.imagePath);
+                toImageActivity.putExtras(imageActivityParameters);
+                startActivity(toImageActivity);
             }
         });
 
@@ -160,6 +172,20 @@ public class UserFragment extends Fragment {
         return root;
     }
 
+    //back button
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().remove(this).commit();
+            fragmentManager.popBackStack();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void populateListViewTracks(ListView listViewTracks){
         adapter = new TrackAdapter(getActivity(), tracks);
         listViewTracks.setAdapter(adapter);
@@ -172,6 +198,7 @@ public class UserFragment extends Fragment {
         });
     }
 
+    //get parameters
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,6 +208,7 @@ public class UserFragment extends Fragment {
         }
     }
 
+    //send request to server
     @Override
     public void onStart() {
         super.onStart();
@@ -190,6 +218,16 @@ public class UserFragment extends Fragment {
         tracks.clear();
         GetTracksUser getTracks = new GetTracksUser(currentUserId, userFragment);
         getTracks.execute();
+
+        //show back button
+        setHasOptionsMenu(true);
+        if (this.getTag() != "firstUserFragment"){
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else {
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
     }
 
     //set listView height
@@ -220,7 +258,7 @@ public class UserFragment extends Fragment {
                 JSONArray ja = new JSONArray(tracksJson);
                 for (int i = 0; i < ja.length(); i++){
                     JSONObject jo =(JSONObject) ja.getJSONObject(i);
-                    tracks.add(new Track(jo.getString("track_name"), jo.getString("path"), jo.getString("image_path"), jo.getString("date"), jo.getInt("listenings"), jo.getString("user_name"), jo.getString("duration")));
+                    tracks.add(new Track(jo.getInt("id"), jo.getString("track_name"), jo.getString("path"), jo.getString("image_path"), jo.getString("date"), jo.getInt("listenings"), jo.getString("user_name"), jo.getString("duration")));
                 }
                 adapter.updateList(tracks);
                 setListViewHeightBasedOnChildren(listViewTracks);
@@ -233,16 +271,17 @@ public class UserFragment extends Fragment {
     //show user data on server response
     public void showUserData(String userJson) {
 
-        TextView userNameTV = getActivity().findViewById(R.id.user_name);
-        TextView aboutTV = getActivity().findViewById(R.id.user_about);
-        CircleImageView userImageCIV = getActivity().findViewById(R.id.user_image);
-        Button followButton = getActivity().findViewById(R.id.user_follow);
-        Button followedButton = getActivity().findViewById(R.id.user_followed);
-        Button editProfileButton = getActivity().findViewById(R.id.user_edit_profile);
-
         try {
+
+            TextView userNameTV = getActivity().findViewById(R.id.user_name);
+            TextView aboutTV = getActivity().findViewById(R.id.user_about);
+            CircleImageView userImageCIV = getActivity().findViewById(R.id.user_image);
+            Button followButton = getActivity().findViewById(R.id.user_follow);
+            Button followedButton = getActivity().findViewById(R.id.user_followed);
+            Button editProfileButton = getActivity().findViewById(R.id.user_edit_profile);
+
             JSONObject jo = new JSONObject(userJson);
-            User currentUser = new User(Integer.parseInt(jo.getString("id")), jo.getString("name"), jo.getString("password"), jo.getString("email"), jo.getString("about"), jo.getString("image_path"));
+            currentUser = new User(Integer.parseInt(jo.getString("id")), jo.getString("name"), jo.getString("password"), jo.getString("email"), jo.getString("about"), jo.getString("image_path"));
 
             boolean isFollowed = Boolean.parseBoolean(jo.getString("is_followed"));
 
@@ -258,11 +297,19 @@ public class UserFragment extends Fragment {
 
             userNameTV.setText(currentUser.userName);
             aboutTV.setText(currentUser.about);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(currentUser.userName);
             Picasso.get().load(currentUser.imagePath).fit().centerCrop().memoryPolicy(MemoryPolicy.NO_CACHE)
                     .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.drawable.purple_user).error(R.drawable.purple_user).into(userImageCIV);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onStop() {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        super.onStop();
     }
 }

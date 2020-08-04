@@ -1,5 +1,6 @@
 package com.roman.yoursound.ui.EditProfile;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -44,8 +45,10 @@ public class PostUserImage extends AsyncTask<String, Void, String> {
 
                     //Compress image file
                     if (sourceFile.length() > 500000) {
+                        String bufImage = "/storage/emulated/0/DCIM/YourSoundBufImage.jpg";
                         Bitmap b = BitmapFactory.decodeFile(sourceFile.getPath());
-                        b.compress(Bitmap.CompressFormat.JPEG, 35, new FileOutputStream(sourceFile));
+                        b.compress(Bitmap.CompressFormat.JPEG, 35, new FileOutputStream(bufImage));
+                        sourceFile = new File(bufImage);
                     }
 
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
@@ -135,7 +138,13 @@ public class PostUserImage extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if (!result.contains("Success")){
+        editProfileActivity.dialog.dismiss();
+        if (result.contains("Success")){
+            File fDelete = new File("/storage/emulated/0/DCIM/YourSoundBufImage.jpg");
+            if (fDelete.exists()){
+                fDelete.delete();
+            }
+        } else {
             Toast.makeText(editProfileActivity, result, Toast.LENGTH_SHORT).show();
         }
     }

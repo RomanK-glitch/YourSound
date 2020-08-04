@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import com.roman.yoursound.MainActivity;
@@ -28,6 +29,7 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Home");
 
         //fetching from server
         GetTracksHome process = new GetTracksHome();

@@ -2,11 +2,13 @@ package com.roman.yoursound.ui.followers;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.roman.yoursound.R;
@@ -22,7 +24,7 @@ public class FollowersFragment extends Fragment {
     public UserAdapter adapter;
     public ListView listViewUsers;
     int currentUserId;
-    String followType;
+    String followType, userName;
 
     @Nullable
     @Override
@@ -30,10 +32,28 @@ public class FollowersFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.followers_fragment, container, false);
 
+        //show back button
+        setHasOptionsMenu(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(userName+"'s " + followType);
+
         ListView userList = (ListView)root.findViewById(R.id.user_list);
         populateListView(userList);
 
         return root;
+    }
+
+    //back button
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().remove(this).commit();
+            fragmentManager.popBackStack();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -43,6 +63,7 @@ public class FollowersFragment extends Fragment {
         if (param != null){
             currentUserId = param.getInt("userId");
             followType = param.getString("followType");
+            userName = param.getString("userName");
         }
     }
 
@@ -70,6 +91,8 @@ public class FollowersFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FollowersFragment followersFragment = this;
         GetFollowers getFollowers = new GetFollowers(currentUserId, followType, followersFragment);
         getFollowers.execute();

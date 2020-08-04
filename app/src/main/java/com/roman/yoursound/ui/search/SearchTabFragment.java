@@ -76,7 +76,7 @@ public class SearchTabFragment extends Fragment {
                     JSONArray ja = new JSONArray(response);
                     for (int i = 0; i < ja.length(); i++) {
                         JSONObject jo = (JSONObject) ja.get(i);
-                        tracks.add(new Track(jo.getString("track_name"), jo.getString("path"), jo.getString("image_path"), jo.getString("date"), jo.getInt("listenings"), jo.getString("user_name"), jo.getString("duration")));
+                        tracks.add(new Track(jo.getInt("id"), jo.getString("track_name"), jo.getString("path"), jo.getString("image_path"), jo.getString("date"), jo.getInt("listenings"), jo.getString("user_name"), jo.getString("duration")));
                     }
                     trackAdapter.updateList(tracks);
                 } catch (JSONException e) {

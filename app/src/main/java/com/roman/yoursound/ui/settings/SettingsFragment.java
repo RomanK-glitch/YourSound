@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import com.roman.yoursound.*;
@@ -26,6 +27,7 @@ public class SettingsFragment extends Fragment {
         SettingsViewModel =
                 ViewModelProviders.of(this).get(SettingsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Settings");
 
         //Initialize views
         to_changeInfo = (Button)root.findViewById(R.id.settings_change_info);
@@ -36,8 +38,12 @@ public class SettingsFragment extends Fragment {
         to_changeInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toChangeInfo = new Intent(getActivity(), EditProfileActivity.class);
-                startActivity(toChangeInfo);
+                if (MainActivity.userLocalStore.isUserLoggedIn()){
+                    Intent toChangeInfo = new Intent(getActivity(), EditProfileActivity.class);
+                    startActivity(toChangeInfo);
+                } else {
+                    Toast.makeText(getActivity(), "Log in to edit profile", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -45,8 +51,13 @@ public class SettingsFragment extends Fragment {
         to_addTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toAddTrack = new Intent(getActivity(), AddTrackActivity.class);
-                startActivity(toAddTrack);
+                if (MainActivity.userLocalStore.isUserLoggedIn()) {
+                    Intent toAddTrack = new Intent(getActivity(), AddTrackActivity.class);
+                    startActivity(toAddTrack);
+                } else {
+                    Toast.makeText(getActivity(), "Log in to add track", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
@@ -32,6 +34,7 @@ public class ProfileFragment extends Fragment {
         profileViewModel =
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Profile");
 
         //Initializing views
         goTo_register = (Button)root.findViewById(R.id.button_logIn_signUp);
@@ -88,8 +91,11 @@ public class ProfileFragment extends Fragment {
             Bundle userId = new Bundle();
             userId.putInt("userId", loggedInUser.id);
             userFragment.setArguments(userId);
+            //fragmentManager.beginTransaction().remove(this).commit();
+            //fragmentManager.popBackStack();
             fragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment, userFragment, userFragment.getTag())
+                    .replace(R.id.nav_host_fragment, userFragment, "firstUserFragment")
+                    //.addToBackStack(null)
                     .commit();
         }
     }
@@ -98,5 +104,15 @@ public class ProfileFragment extends Fragment {
         ProfileFragment profileFragment = this;
         PostLogin postLogin = new PostLogin(userName, password, profileFragment);
         postLogin.execute();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        FragmentManager fragmentManager = getFragmentManager();
+        UserFragment userFragment = (UserFragment) fragmentManager.findFragmentByTag("firstUserFragment");
+        if (userFragment != null){
+            fragmentManager.beginTransaction().remove(userFragment).commit();
+        }
     }
 }

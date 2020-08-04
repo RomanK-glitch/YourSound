@@ -8,12 +8,12 @@
         "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\drawable-xxxhdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
     },
     {
-        "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_grow_fade_in_from_bottom.xml.flat",
-        "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
-    },
-    {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
         "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\drawable-xxxhdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
+    },
+    {
+        "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_grow_fade_in_from_bottom.xml.flat",
+        "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
     },
     {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\color_mtrl_on_primary_text_btn_text_color_selector.xml.flat",
@@ -1342,6 +1342,10 @@
     {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\animator_design_fab_show_motion_spec.xml.flat",
         "source": "C:\\Users\\mrkos\\.gradle\\caches\\transforms-2\\files-2.1\\e515d40e627c4e0412a7c5fa3f288da9\\material-1.1.0\\res\\animator\\design_fab_show_motion_spec.xml"
+    },
+    {
+        "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_image.xml.flat",
+        "source": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\src\\main\\res\\layout\\activity_image.xml"
     },
     {
         "merged": "C:\\Users\\mrkos\\IdeaProjects\\YourSound\\app\\build\\intermediates\\res\\merged\\debug\\layout_test_toolbar_custom_background.xml.flat",

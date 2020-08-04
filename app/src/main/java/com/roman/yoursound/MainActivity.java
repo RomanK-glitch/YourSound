@@ -5,13 +5,12 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -29,11 +28,13 @@ public class MainActivity extends AppCompatActivity {
 
     //Views
     ConstraintLayout dragView;
+    SlidingUpPanelLayout slidingUpPanelLayout;
     View playerFragment;
     Button bottomBtnPlay, playBtn;
     SeekBar positionBar;
     TextView elapsedTimeLabel, remainingTimeLabel, currentTrackNameBottom, currentTrackAuthorBottom, currentTrackNamePlayer, currentTrackAuthorPlayer;
     ImageView player_trackImage;
+
     public static UserLocalStore userLocalStore;
     MediaPlayer mp;
     int totalTime;
@@ -56,20 +57,34 @@ public class MainActivity extends AppCompatActivity {
         userLocalStore = new UserLocalStore(this);
 
         //Draggable player
+
         dragView = (ConstraintLayout)findViewById(R.id.dragView);
         playerFragment = findViewById(R.id.player_fragment);
         playerFragment.setAlpha(0);
-        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_panel);
+        slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_panel);
+
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+
+            //hide drag view
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 dragView.setAlpha(1 - slideOffset);
                 playerFragment.setAlpha(slideOffset);
             }
 
+            //change drag view
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-
+                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED){
+                    //mke drag view bigger
+                    slidingUpPanelLayout.setDragView(findViewById(R.id.player_imageView));
+                } else if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
+                    //make drag view smaller
+                    playerFragment.setVisibility(View.GONE);
+                    slidingUpPanelLayout.setDragView(dragView);
+                } else {
+                    playerFragment.setVisibility(View.VISIBLE);
+                }
             }
 
         });
@@ -94,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Player preparing
     public void playerPreparing(Track currentTrack){
+
+        PostListened postListened = new PostListened(currentTrack.id);
+        postListened.execute();
 
         currentTrackAuthorBottom.setText(currentTrack.author);
         currentTrackNameBottom.setText(currentTrack.name);
@@ -208,6 +226,16 @@ public class MainActivity extends AppCompatActivity {
             mp.pause();
             playBtn.setBackgroundResource(R.drawable.control_play_black);
             bottomBtnPlay.setBackgroundResource(R.drawable.control_play_white);
+        }
+    }
+
+    //close player on back button
+    @Override
+    public void onBackPressed() {
+        if (slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        }  else  {
+            super.onBackPressed();
         }
     }
 }

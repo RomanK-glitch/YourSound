@@ -1634,6 +1634,7 @@ id fixed
 id forever
 id fragment_container_view_tag
 id fragment_current_track
+id full_screen_image
 id ghost_view
 id ghost_view_holder
 id gone
@@ -1930,6 +1931,7 @@ layout abc_tooltip
 layout activity_add_track
 layout activity_change_info
 layout activity_comments
+layout activity_image
 layout activity_main
 layout bottom_track_fragment
 layout comment_list

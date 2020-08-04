@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.roman.yoursound.R;
+
+import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
 
@@ -37,6 +41,7 @@ public class SearchFragment extends Fragment {
         SearchViewModel =
                 ViewModelProviders.of(this).get(SearchViewModel.class);
         View root = inflater.inflate(R.layout.fragment_search, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Search");
 
         //initialize views
         searchBtn = root.findViewById(R.id.search_search_btn);
@@ -84,6 +89,5 @@ public class SearchFragment extends Fragment {
     public void usersOnServerResponse(String response) {
         searchPeople.setResultUsers(response);
     }
-
 
 }

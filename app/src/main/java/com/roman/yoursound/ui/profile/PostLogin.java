@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.roman.yoursound.MainActivity;
 import com.roman.yoursound.R;
 import com.roman.yoursound.ui.user.UserFragment;
@@ -80,9 +81,11 @@ class PostLogin extends AsyncTask<String, Void, String> {
             Bundle userId = new Bundle();
             userId.putInt("userId", loggedInUser.id);
             userFragment.setArguments(userId);
+            //fragmentManager.beginTransaction().remove(profileFragment);
+            //fragmentManager.popBackStack();
             fragmentManager.beginTransaction()
                     .setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
-                    .replace(R.id.nav_host_fragment, userFragment, userFragment.getTag())
+                    .replace(R.id.nav_host_fragment, userFragment, "firstUserFragment")
                     .commit();
         }
     }

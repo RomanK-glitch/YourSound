@@ -1,5 +1,6 @@
 package com.roman.yoursound.ui.EditProfile;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -31,6 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
     TextView nameTV;
     TextView aboutTV;
     ImageView userImageIV;
+    ProgressDialog dialog;
 
     String newName, newAbout;
     String filePath = "";
@@ -79,6 +81,15 @@ public class EditProfileActivity extends AppCompatActivity {
                 newName = nameTV.getText().toString();
                 newAbout = aboutTV.getText().toString();
                 if (!filePath.isEmpty()) {
+                    //loading dialog
+                    dialog = new ProgressDialog(etActivity);
+                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    dialog.setTitle("Uploading");
+                    dialog.setMessage("Please wait...");
+                    dialog.setIndeterminate(true);
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.show();
+
                     PostUserImage postUserImage = new PostUserImage(filePath, etActivity);
                     postUserImage.execute();
                     newImagePath = "http://mrkoste6.beget.tech/user_image/" + String.valueOf(MainActivity.userLocalStore.getLoggedInUser().id) + filePath.substring(filePath.indexOf("."));

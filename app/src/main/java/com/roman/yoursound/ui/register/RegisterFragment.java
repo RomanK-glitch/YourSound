@@ -1,6 +1,7 @@
 package com.roman.yoursound.ui.register;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -9,7 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import com.roman.yoursound.R;
 import com.roman.yoursound.models.User;
 
@@ -29,6 +32,10 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_register, container, false);
+
+        setHasOptionsMenu(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Initialize views
         userNameET = (EditText)root.findViewById(R.id.editText_signUp_userName);
@@ -66,6 +73,20 @@ public class RegisterFragment extends Fragment {
                     }
                 });
         return root;
+    }
+
+    //back button
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().remove(this).commit();
+            fragmentManager.popBackStack();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void registerRequest (final String userName,final String password,final String eMail) {

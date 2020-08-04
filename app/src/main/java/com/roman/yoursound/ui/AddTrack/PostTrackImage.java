@@ -46,8 +46,10 @@ public class PostTrackImage extends AsyncTask<String, Void, String> {
 
                     //Compress image file
                     if (sourceFile.length() > 500000) {
+                        String bufImage = "/storage/emulated/0/DCIM/YourSoundBufImage.jpg";
                         Bitmap b = BitmapFactory.decodeFile(sourceFile.getPath());
-                        b.compress(Bitmap.CompressFormat.JPEG, 35, new FileOutputStream(sourceFile));
+                        b.compress(Bitmap.CompressFormat.JPEG, 35, new FileOutputStream(bufImage));
+                        sourceFile = new File(bufImage);
                     }
 
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
@@ -137,5 +139,9 @@ public class PostTrackImage extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        File fDelete = new File("/storage/emulated/0/DCIM/YourSoundBufImage.jpg");
+        if (fDelete.exists()){
+            fDelete.delete();
+        }
     }
 }
