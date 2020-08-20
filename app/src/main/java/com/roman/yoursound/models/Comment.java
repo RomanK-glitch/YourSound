@@ -1,9 +1,13 @@
 package com.roman.yoursound.models;
 
 public class Comment {
-    public String commentText;
+    public String text;
+    public String userImagePath;
+    public int userId;
 
-    public Comment(String commentText){
-        this.commentText = commentText;
+    public Comment(String text, String userImagePath, int userId){
+        this.text = text;
+        this.userImagePath = userImagePath;
+        this.userId = userId;
     }
 }

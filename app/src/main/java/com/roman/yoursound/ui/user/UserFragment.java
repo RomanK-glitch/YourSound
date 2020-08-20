@@ -38,7 +38,6 @@ public class UserFragment extends Fragment {
     public ListView listViewTracks;
     int currentUserId = MainActivity.userLocalStore.getLoggedInUser().id;
     User currentUser;
-    CharSequence oldTitle;
 
     //Views
     TextView userNameTV, noSoundsTV;
@@ -88,6 +87,7 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 FollowersFragment followersFragment = new FollowersFragment();
                 FragmentManager fragmentManager = getParentFragmentManager();
+
                 Bundle params = new Bundle();
                 params.putInt("userId", currentUserId);
                 params.putString("followType", "followers");
@@ -258,7 +258,7 @@ public class UserFragment extends Fragment {
                 JSONArray ja = new JSONArray(tracksJson);
                 for (int i = 0; i < ja.length(); i++){
                     JSONObject jo =(JSONObject) ja.getJSONObject(i);
-                    tracks.add(new Track(jo.getInt("id"), jo.getString("track_name"), jo.getString("path"), jo.getString("image_path"), jo.getString("date"), jo.getInt("listenings"), jo.getString("user_name"), jo.getString("duration")));
+                    tracks.add(new Track(jo.getInt("id"), jo.getString("track_name"), jo.getString("path"), jo.getString("image_path"), jo.getString("date"), jo.getInt("listenings"), jo.getInt("userId"), jo.getString("user_name"), jo.getString("duration")));
                 }
                 adapter.updateList(tracks);
                 setListViewHeightBasedOnChildren(listViewTracks);

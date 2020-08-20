@@ -57,8 +57,8 @@
 34        </activity>
 35        <activity
 35-->C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:26:9-30:20
-36            android:name="com.roman.yoursound.CommentsActivity"
-36-->C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:27:17-49
+36            android:name="com.roman.yoursound.ui.Comments.CommentsActivity"
+36-->C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:27:17-61
 37            android:label="Comments"
 37-->C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:28:17-41
 38            android:screenOrientation="portrait" >

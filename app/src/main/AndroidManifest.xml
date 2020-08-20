@@ -24,7 +24,7 @@
                 android:screenOrientation="portrait">
         </activity>
         <activity
-                android:name=".CommentsActivity"
+                android:name=".ui.Comments.CommentsActivity"
                 android:label="Comments"
                 android:screenOrientation="portrait">
         </activity>

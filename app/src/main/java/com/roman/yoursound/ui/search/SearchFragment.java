@@ -49,12 +49,14 @@ public class SearchFragment extends Fragment {
         viewPager = root.findViewById(R.id.search_viewPager);
         tabLayout = root.findViewById(R.id.search_tabLayout);
         searchFragment = this;
-        fragmentManager = getFragmentManager();
+        fragmentManager = getParentFragmentManager();
 
         //tabs
-        pagerAdapter = new SampleFragmentPagerAdapter(getActivity().getSupportFragmentManager(), getActivity());
+        pagerAdapter = new SampleFragmentPagerAdapter(getChildFragmentManager(), getActivity());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+
 
         //search
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +69,8 @@ public class SearchFragment extends Fragment {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
-                searchSounds = pagerAdapter.searchFragments.get(0);
-                searchPeople = pagerAdapter.searchFragments.get(1);
+                searchSounds = (SearchTabFragment) getChildFragmentManager().getFragments().get(0);
+                searchPeople = (SearchTabFragment) getChildFragmentManager().getFragments().get(1);
                 searchFor = searchET.getText().toString();
                 if (!searchFor.isEmpty()){
                     SearchGetSounds searchGetSounds = new SearchGetSounds(searchFor, searchFragment);

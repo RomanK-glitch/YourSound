@@ -130,14 +130,14 @@ ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xm
 		ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:23:17-45
 	android:name
 		ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:22:17-67
-activity#com.roman.yoursound.CommentsActivity
+activity#com.roman.yoursound.ui.Comments.CommentsActivity
 ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:26:9-30:20
 	android:screenOrientation
 		ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:29:17-53
 	android:label
 		ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:28:17-41
 	android:name
-		ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:27:17-49
+		ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:27:17-61
 activity#com.roman.yoursound.ui.register.RegisterFragment
 ADDED from C:\Users\mrkos\IdeaProjects\YourSound\app\src\main\AndroidManifest.xml:31:9-34:20
 	android:label

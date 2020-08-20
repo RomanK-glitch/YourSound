@@ -1,5 +1,6 @@
 package com.roman.yoursound;
 
+import android.app.Fragment;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.roman.yoursound.models.Track;
 import com.roman.yoursound.models.UserLocalStore;
+import com.roman.yoursound.ui.user.UserFragment;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -28,12 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
     //Views
     ConstraintLayout dragView;
-    SlidingUpPanelLayout slidingUpPanelLayout;
+    public SlidingUpPanelLayout slidingUpPanelLayout;
     View playerFragment;
     Button bottomBtnPlay, playBtn;
     SeekBar positionBar;
     TextView elapsedTimeLabel, remainingTimeLabel, currentTrackNameBottom, currentTrackAuthorBottom, currentTrackNamePlayer, currentTrackAuthorPlayer;
     ImageView player_trackImage;
+    public static Track mainCurrentTrack;
 
     public static UserLocalStore userLocalStore;
     MediaPlayer mp;
@@ -107,8 +112,25 @@ public class MainActivity extends AppCompatActivity {
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
+    public void changeFragment() {
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        //change fragment
+        UserFragment userFragment = new UserFragment();
+        Bundle selectedUserId = new Bundle();
+        selectedUserId.putInt("userId", mainCurrentTrack.userId);
+        userFragment.setArguments(selectedUserId);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
+                .replace(R.id.nav_host_fragment, userFragment, userFragment.getTag())
+                .addToBackStack(null)
+                .commit();
+    }
+
     //Player preparing
     public void playerPreparing(Track currentTrack){
+
+        mainCurrentTrack = currentTrack;
 
         PostListened postListened = new PostListened(currentTrack.id);
         postListened.execute();

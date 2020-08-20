@@ -76,7 +76,7 @@ public class SearchTabFragment extends Fragment {
                     JSONArray ja = new JSONArray(response);
                     for (int i = 0; i < ja.length(); i++) {
                         JSONObject jo = (JSONObject) ja.get(i);
-                        tracks.add(new Track(jo.getInt("id"), jo.getString("track_name"), jo.getString("path"), jo.getString("image_path"), jo.getString("date"), jo.getInt("listenings"), jo.getString("user_name"), jo.getString("duration")));
+                        tracks.add(new Track(jo.getInt("id"), jo.getString("track_name"), jo.getString("path"), jo.getString("image_path"), jo.getString("date"), jo.getInt("listenings"), jo.getInt("userId"), jo.getString("user_name"), jo.getString("duration")));
                     }
                     trackAdapter.updateList(tracks);
                 } catch (JSONException e) {
@@ -115,6 +115,9 @@ public class SearchTabFragment extends Fragment {
     public void populateListViewTracks(final ListView listViewTracks){
         trackAdapter = new TrackAdapter(getActivity(), tracks);
         listViewTracks.setAdapter(trackAdapter);
+        if (trackAdapter.getCount() != 0){
+            noResults.setVisibility(View.GONE);
+        }
         listViewTracks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -127,6 +130,9 @@ public class SearchTabFragment extends Fragment {
     public void populateListViewUsers(ListView userList){
         userAdapter = new UserAdapter(getActivity(), users);
         userList.setAdapter(userAdapter);
+        if (userAdapter.getCount() != 0){
+            noResults.setVisibility(View.GONE);
+        }
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
